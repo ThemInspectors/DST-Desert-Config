@@ -34,56 +34,58 @@ local GROUND = GLOBAL.GROUND
 local LEVELTYPE = GLOBAL.LEVELTYPE
 
 AddTaskSetPreInitAny(function(tasksetdata)
-	print("Starting Worldgen...")
-		if tasksetdata.location ~= "forest" then
-			return
-		end
+  print("Starting Worldgen...")
+    if tasksetdata.location ~= "forest" then
+      return
+    end
 
-	GLOBAL.dumptable(tasksetdata)
+  GLOBAL.dumptable(tasksetdata)
 end)
 
 
 --Tasksets!
 AddTaskSet("desertonly", {
-		name = Desert!,
+    name = Desert!,
         location = "forest",
-		tasks = {
-			"Make a pick", --Starting, Important
-		--	"Dig that rock", --Rocky area, maybe used.
-		--	"Great Plains",
-		--	"Squeltch",
-		--	"Beeeees!",
-		--	"Speak to the king",
-		--	"Forest hunters",
-			"Badlands", -- Desert, important
-		--	"For a nice walk",
-			"Lightning Bluff", -- Derset, Important
-		},
-		numoptionaltasks = 5,
-		optionaltasks = {
---			"Befriend the pigs",
---			"Kill the spiders",
---			"Killer bees!",
---			"Make a Beehat",
---			"The hunters",
---			"Magic meadow",
---			"Frogs and bugs",
---			"Mole Colony Deciduous",
---			"Mole Colony Rocks",
---			"MooseBreedingTask", 
-		},
+    tasks = {
+      "Make a pick", --Starting, Important
+    --  "Dig that rock", -- Mosaic
+    --  "Great Plains",
+    --  "Squeltch",
+    --  "Beeeees!",
+    --  "Speak to the king",
+    --  "Forest hunters",
+      "Badlands", -- Desert, important
+    --  "For a nice walk",
+      "Lightning Bluff", -- Derset, Important
+      "Oasis" -- A cool desert addition
+      "Rocky Quarry" -- custom quarry
+    },
+    numoptionaltasks = 5,
+    optionaltasks = {
+--      "Befriend the pigs",
+--      "Kill the spiders",
+--      "Killer bees!",
+--      "Make a Beehat",
+--      "The hunters",
+--      "Magic meadow",
+--      "Frogs and bugs",
+--      "Mole Colony Deciduous",
+--      "Mole Colony Rocks",
+--      "MooseBreedingTask", 
+    },
         valid_start_tasks = {
             "Make a pick",
         },
 --[=====[
-		set_pieces = { 
-			["ResurrectionStone"] = { count = 2, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Badlands" } },
-			["WormholeGrass"] = { count = 16, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Kill the spiders", "Killer bees!", "Make a Beehat", "The hunters", "Magic meadow", "Frogs and bugs", "Badlands"} },
-			["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
-			["CaveEntrance"] = { count = 10, tasks={"Make a pick"} }, 
-		},
+    set_pieces = { 
+      ["ResurrectionStone"] = { count = 2, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Badlands" } },
+      ["WormholeGrass"] = { count = 16, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Kill the spiders", "Killer bees!", "Make a Beehat", "The hunters", "Magic meadow", "Frogs and bugs", "Badlands"} },
+      ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
+      ["CaveEntrance"] = { count = 10, tasks={"Make a pick"} }, 
+    },
 
-	})
+  })
 --]=====] -- Later.
 
 
@@ -100,76 +102,103 @@ AddTaskSet("desertonly", {
 
 
 
+AddTask("Rocky Quarry",  {  
+      locks={ LOCKS.PICKAXE, LOCKS.TIER1 }, -    
+      keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4 KEYS.TEIR2 }, -- Future Release?
+   
+      room_choices =
+              {
+                ["Rocky"] = 2,
+                ["WalrusHut_Rocky"] = 1,-              },
+      room_bg=GROUND.ROCKY,
+      background_room="BGRocky",
+      colour={r=1,g=1,b=0,a=1}
+  )
 
-
-
---[=====[ 
-AddTaskSet("moarbananas", { -- ID of Task Set, not shown to the user
-		name = More Bananas, -- Name of Task Set, shown to the user in world generation options under Worldgen:Biomes 
-        location = "forest", --location area of biomes, either "caves" or "forest"
-		tasks = { -- list of Forest Tasks forced to spawn. The caves ones are in the in DST files under data/scripts/map/tasksets/caves.lua
-			"Make a pick", -- starting area
-			"Dig that rock", -- quarry
-			"Great Plains", -- ???
-			"Squeltch", -- swamp
-			"Beeeees!", -- beequeen area
-			"Speak to the king", -- self-explainatory
-			"Forest hunters", -- MacTusk camp in a forest
-			"Badlands", -- DFly Desert
-			"For a nice walk", -- odd
-			"Lightning Bluff", -- Antlion Desert
-		},
-		numoptionaltasks = 5,
-		optionaltasks = {
-			"Befriend the pigs", -- Pig Village?
-			"Kill the spiders", -- uhhh?
-			"Killer bees!", -- KB field?
-			"Make a Beehat", -- ???
-			"The hunters", -- triple mactusk area; Rockyland w/ tallbirds, grassland and savanna
-			"Magic meadow", -- ???
-			"Frogs and bugs", -- ???
-			"Mole Colony Deciduous", -- ???
-			"Mole Colony Rocks", -- ???
-			"MooseBreedingTask", area with lotso moose nests
-		},
-        valid_start_tasks = {
-            "Make a pick",
-        },
-		set_pieces = { --set pieces
-			["ResurrectionStone"] = { count = 2, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Badlands" } },
-			["WormholeGrass"] = { count = 16, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Kill the spiders", "Killer bees!", "Make a Beehat", "The hunters", "Magic meadow", "Frogs and bugs", "Badlands"} },
-			["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
-			["CaveEntrance"] = { count = 10, tasks={"Make a pick"} }, 
-		},
-
-	})
-
---AddTask("Banana Jungle",	{	locks={  }, --Locks go here    
-					keys_given={  }, --keys go here | used to link some Tasks together    
-						room_choices =
-							{
-								["BG_BANANA_LAND"] = 2,
-								["BananaKingdom"] = 1,-							},
-						room_bg=GROUND.BRICK,
-						background_room="BG_BANANA_LAND", -- background 
-						colour={r=0,g=0,b=0,a=0}, copy the colour from a related biome in the game's files XD
-					}
-	)
-
-AddRoom("BG_BANANA_LAND",	{
-			colour={r=0.3,g=0.2,b=0.1,a=0.3}, --copy colour
-			value = GROUND.BANANA, --copy value (whatever it means)
-			contents =	{
-					distributepercent = 0.15, -- how much combined terrain should be covered with prefabs, percent in decimal
-						distributeprefabs =
-							{
-								cave_banana_tree = 0.45, --prefab, percent in decimals
-							}
-					}
-				}
-	)
 
 
 
 
 --]=====]
+
+
+
+
+
+-- Templates.
+--[=====[ 
+AddTaskSet("moarbananas", { -- ID of Task Set, not shown to the user
+    name = More Bananas, -- Name of Task Set, shown to the user in world generation options under Worldgen:Biomes 
+        location = "forest", --location area of biomes, either "caves" or "forest"
+    tasks = { -- list of Forest Tasks forced to spawn. The caves ones are in the in DST files under data/scripts/map/tasksets/caves.lua
+      "Make a pick", -- starting area
+      "Dig that rock", -- quarry
+      "Great Plains", -- ???
+      "Squeltch", -- swamp
+      "Beeeees!", -- beequeen area
+      "Speak to the king", -- self-explainatory
+      "Forest hunters", -- MacTusk camp in a forest
+      "Badlands", -- DFly Desert
+      "For a nice walk", -- odd
+      "Lightning Bluff", -- Antlion Desert
+    },
+    numoptionaltasks = 5,
+    optionaltasks = {
+      "Befriend the pigs", -- Pig Village?
+      "Kill the spiders", -- uhhh?
+      "Killer bees!", -- KB field?
+      "Make a Beehat", -- ???
+      "The hunters", -- triple mactusk area; Rockyland w/ tallbirds, grassland and savanna
+      "Magic meadow", -- ???
+      "Frogs and bugs", -- ???
+      "Mole Colony Deciduous", -- ???
+      "Mole Colony Rocks", -- ???
+      "MooseBreedingTask", -- area with lotso moose nests
+    },
+        valid_start_tasks = {
+            "Make a pick",
+        },
+    set_pieces = { --set pieces
+      ["ResurrectionStone"] = { count = 2, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Badlands" } },
+      ["WormholeGrass"] = { count = 16, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Kill the spiders", "Killer bees!", "Make a Beehat", "The hunters", "Magic meadow", "Frogs and bugs", "Badlands"} },
+      ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
+      ["CaveEntrance"] = { count = 10, tasks={"Make a pick"} }, 
+    },
+
+  })
+
+AddTask("Banana Jungle",  {  
+      locks={  }, --Locks go here    
+      keys_given={  }, --keys go here | used to link some Tasks together
+      entrance_room_chance=0.5,
+      entrance_room="",    
+      room_choices =
+              {
+                ["BG_BANANA_LAND"] = 2,
+                ["BananaKingdom"] = 1,-              },
+            room_bg=GROUND.BRICK,
+            background_room="BG_BANANA_LAND", -- background 
+            colour={r=0,g=0,b=0,a=0}, copy the colour from a related biome in the game's files XD
+          }
+  )
+
+AddRoom("BG_BANANA_LAND",  {
+      tags = {}, -- Tags for marking during worldgen, for example, road poison or chester eyeybone
+      contents =  {
+                      distributepercent = .2,
+                      distributeprefabs=
+                      {
+                        deciduoustree=6,
+                        
+                    pighouse=1,
+
+                          },
+                      }
+          })
+
+
+
+
+
+--]=====]
+  

@@ -34,10 +34,6 @@ local GROUND = GLOBAL.GROUND
 local LEVELTYPE = GLOBAL.LEVELTYPE
 
 AddTaskSetPreInitAny(function(tasksetdata)
-  print("Starting Worldgen...")
-    if tasksetdata.location ~= "forest" then
-      return
-    end
 
   GLOBAL.dumptable(tasksetdata)
 end)
@@ -45,49 +41,29 @@ end)
 
 --Tasksets!
 AddTaskSet("desertonly", {
-    name = Desert!,
-        location = "forest",
+    name = Desert,
+    location = "forest",
     tasks = {
-      "Make a pick", --Starting, Important
-    --  "Dig that rock", -- Mosaic
-    --  "Great Plains",
-    --  "Squeltch",
-    --  "Beeeees!",
-    --  "Speak to the king",
-    --  "Forest hunters",
-      "Badlands", -- Desert, important
-    --  "For a nice walk",
-      "Lightning Bluff", -- Derset, Important
-      "Oasis" -- A cool desert addition
-      "Rocky Quarry" -- custom quarry
+    "Make a pick", --Starting, Important
+    "Badlands", -- Desert, important
+    "Lightning Bluff", -- Derset, Important
+    "Oasis" -- A cool desert addition
+    "Rocky Quarry" -- custom quarry
     },
     numoptionaltasks = 0,
-    optionaltasks = {
---      "Befriend the pigs",
---      "Kill the spiders",
---      "Killer bees!",
---      "Make a Beehat",
---      "The hunters",
---      "Magic meadow",
---      "Frogs and bugs",
---      "Mole Colony Deciduous",
---      "Mole Colony Rocks",
---      "MooseBreedingTask", 
-    },
+    optionaltasks = {},
         valid_start_tasks = {
             "Make a pick",
         },
 --[=====[
     set_pieces = { 
-      ["ResurrectionStone"] = { count = 2, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Badlands" } },
-      ["WormholeGrass"] = { count = 16, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Kill the spiders", "Killer bees!", "Make a Beehat", "The hunters", "Magic meadow", "Frogs and bugs", "Badlands"} },
-      ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
-      ["CaveEntrance"] = { count = 10, tasks={"Make a pick"} }, 
+    ["ResurrectionStone"] = { count = 2, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Badlands" } },
+    ["WormholeGrass"] = { count = 16, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Kill the spiders", "Killer bees!", "Make a Beehat", "The hunters", "Magic meadow", "Frogs and bugs", "Badlands"} },
+    ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
+    ["CaveEntrance"] = { count = 10, tasks={"Make a pick"} }, 
     },
-
-  })
 --]=====] -- Later.
-
+  })
 
 
 
@@ -103,17 +79,16 @@ AddTaskSet("desertonly", {
 
 
 AddTask("Rocky Quarry",  {  
-      locks={ LOCKS.PICKAXE, LOCKS.TIER1 }, -    
-      keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4 KEYS.TEIR2 }, -- Future Release?
-   
-      room_choices =
-              {
-                ["Rocky"] = 2,
-                ["WalrusHut_Rocky"] = 1,-              },
-      room_bg=GROUND.ROCKY,
-      background_room="BGRocky",
-      colour={r=1,g=1,b=0,a=1}
-  )
+    locks={ LOCKS.PICKAXE, LOCKS.TIER1 },    
+    keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4 KEYS.TEIR2 }, -- Future Release?
+    room_choices =
+    {
+    ["Rocky"] = 2,
+    ["WalrusHut_Rocky"] = 1,              },
+    room_bg=GROUND.ROCKY,
+    background_room="BGRocky",
+    colour={r=1,g=1,b=0,a=1}
+  })
 
 
 
@@ -195,10 +170,4 @@ AddRoom("BG_BANANA_LAND",  {
                           },
                       }
           })
-
-
-
-
-
 --]=====]
-  

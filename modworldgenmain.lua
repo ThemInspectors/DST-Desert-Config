@@ -61,7 +61,7 @@ AddTaskSet("desertonly", {
       "Oasis" -- A cool desert addition
       "Rocky Quarry" -- custom quarry
     },
-    numoptionaltasks = 5,
+    numoptionaltasks = 0,
     optionaltasks = {
 --      "Befriend the pigs",
 --      "Kill the spiders",

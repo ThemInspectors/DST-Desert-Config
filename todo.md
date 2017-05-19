@@ -7,8 +7,9 @@
 
 ## 1.1
 
-  ### Configure deserts
+  ### Normal worlds
     - add an option to choose how many deserts can spawn in normal worlds
+    - Pig king desert
   ### Desert-Only Preset
     - custom Pig king desert
     - optional deserts

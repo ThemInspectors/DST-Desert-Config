@@ -41,39 +41,69 @@ end)
  
 --Tasksets!
 AddTaskSet("desertonly", {
-    name = Desert,
+    name = "Desert-Only",
     location = "forest",
-    tasks = {
-    "Make a pick", --Get/make a replacemnt 
+    tasks = {  
+    "Desert Start" 
     "Badlands", -- Desert, important
     "Lightning Bluff", -- Derset, Important
     "Oasis", -- A cool desert addition
-    "Rocky Quarry" -- custom quarry
+    "Quarry" -- custom quarry
     },
 --    numoptionaltasks = 0,
 --    optionaltasks = {},
     valid_start_tasks = {
-    "Make a pick"
+    "Desert Start"
     }
   }
 )
 
-AddTask("Rocky Quarry",  {  
+AddTask("Quarry",  {  
 --    locks={ LOCKS.PICKAXE, LOCKS.TIER1 },    
 --    keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4, KEYS.TEIR2 }, -- Future Release?
     room_choices =
     {
     ["Rocky"] = 2,
-    ["WalrusHut_Rocky"] = 1              
+    ["WalrusHut_Rocky"] = 2   
     },
     room_bg=GROUND.ROCKY,
     background_room="BGRocky",
     colour={r=1,g=1,b=0,a=1}
   }
 )
- 
- 
 
+AddTask("Desert Start",  {  
+--    locks={ LOCKS.PICKAXE, LOCKS.TIER1 },    
+--    keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4, KEYS.TEIR2 }, -- Future Release?
+    room_choices =
+    {
+    ["Rocky"] = 1,
+    ["DesertStartArea"] = 1
+    },
+		room_bg=GROUND.DIRT,
+		background_room="BGBadlands",
+		colour={r=1,g=0.6,b=1,a=1},
+  }
+)
+ 
+AddRoom("DesertStartArea",  {
+  -- tags = {}, -- Tags for marking during worldgen, for example, road poison or chester eyeybone
+   contents =  {
+     distributepercent = 0.45,
+     distributeprefabs=
+       {
+       flint=0.3,
+       twigs=0.3,
+       grassgekko=0.4,
+       
+       },
+     }
+})
+ 
+ 
+ 
+ 
+ 
 -- Templates.
 --[=====[ 
 AddTaskSet("moarbananas", { -- ID of Task Set, not shown to the user

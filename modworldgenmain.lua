@@ -1,7 +1,7 @@
 --[=====[ 
  
  Copyright (C) 2017 ThemInspectors
-
+ 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
@@ -13,32 +13,32 @@
  GNU General Public License for more details.
  
  You should have received a copy of the GNU General Public License
- along with this program. If not, see <http://www.gnu.org/licenses/>.
-
+ along with this program. If not, see <http://w...content-available-to-author-only...u.org/licenses/>.
+ 
 --]=====]
-
-
+ 
+ 
 local require = GLOBAL.require
 require("map/lockandkey")
 require("map/tasks")
 require("map/rooms")
 require("map/terrain")
 require("map/level")
-
+ 
 local blockersets = require("map/blockersets")
-
+ 
 local LOCKS = GLOBAL.LOCKS
 local KEYS = GLOBAL.KEYS
-
+ 
 local GROUND = GLOBAL.GROUND
 local LEVELTYPE = GLOBAL.LEVELTYPE
-
+ 
 AddTaskSetPreInitAny(function(tasksetdata)
-
+ 
   GLOBAL.dumptable(tasksetdata)
 end)
-
-
+ 
+ 
 --Tasksets!
 AddTaskSet("desertonly", {
     name = Desert,
@@ -47,58 +47,32 @@ AddTaskSet("desertonly", {
     "Make a pick", --Starting, Important
     "Badlands", -- Desert, important
     "Lightning Bluff", -- Derset, Important
-    "Oasis" -- A cool desert addition
+    "Oasis", -- A cool desert addition
     "Rocky Quarry" -- custom quarry
     },
-    numoptionaltasks = 0,
-    optionaltasks = {},
-        valid_start_tasks = {
-            "Make a pick",
-        },
---[=====[
-    set_pieces = { 
-    ["ResurrectionStone"] = { count = 2, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Badlands" } },
-    ["WormholeGrass"] = { count = 16, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Kill the spiders", "Killer bees!", "Make a Beehat", "The hunters", "Magic meadow", "Frogs and bugs", "Badlands"} },
-    ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
-    ["CaveEntrance"] = { count = 10, tasks={"Make a pick"} }, 
-    },
---]=====] -- Later.
-  })
-
-
-
-
-
-
-
-
-
-
-
-
-
+--    numoptionaltasks = 0,
+--    optionaltasks = {},
+    valid_start_tasks = {
+    "Make a pick"
+    }
+  }
+)
 
 AddTask("Rocky Quarry",  {  
     locks={ LOCKS.PICKAXE, LOCKS.TIER1 },    
-    keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4 KEYS.TEIR2 }, -- Future Release?
+    keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4, KEYS.TEIR2 }, -- Future Release?
     room_choices =
     {
     ["Rocky"] = 2,
-    ["WalrusHut_Rocky"] = 1,              },
+    ["WalrusHut_Rocky"] = 1              
+    },
     room_bg=GROUND.ROCKY,
     background_room="BGRocky",
     colour={r=1,g=1,b=0,a=1}
-  })
-
-
-
-
-
---]=====]
-
-
-
-
+  }
+)
+ 
+ 
 
 -- Templates.
 --[=====[ 
@@ -139,9 +113,9 @@ AddTaskSet("moarbananas", { -- ID of Task Set, not shown to the user
       ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
       ["CaveEntrance"] = { count = 10, tasks={"Make a pick"} }, 
     },
-
+ 
   })
-
+ 
 AddTask("Banana Jungle",  {  
       locks={  }, --Locks go here    
       keys_given={  }, --keys go here | used to link some Tasks together
@@ -156,7 +130,7 @@ AddTask("Banana Jungle",  {
             colour={r=0,g=0,b=0,a=0}, copy the colour from a related biome in the game's files XD
           }
   )
-
+ 
 AddRoom("BG_BANANA_LAND",  {
       tags = {}, -- Tags for marking during worldgen, for example, road poison or chester eyeybone
       contents =  {
@@ -164,9 +138,9 @@ AddRoom("BG_BANANA_LAND",  {
                       distributeprefabs=
                       {
                         deciduoustree=6,
-                        
+ 
                     pighouse=1,
-
+ 
                           },
                       }
           })

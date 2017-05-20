@@ -51,7 +51,7 @@ AddTaskSet("desertonly", {
     "Badlands", -- Desert, important
     "Lightning Bluff", -- Derset, Important
     "Oasis", -- A cool desert addition
-	"Quarrelious Quarry" -- custom quarry
+	"Quarrelious Desert" -- custom Desert Area
     },
 --    numoptionaltasks = 0,
 --    optionaltasks = {},
@@ -65,14 +65,14 @@ AddTaskSet("desertonly", {
   }
 )
 
-AddTask("Quarrelious Quarry",  {  
-    locks={ LOCKS.ROCKS, LOCKS.TIER1 },    
+AddTask("Quarrelious Desert",  {  
+    locks={ LOCKS.ROCKS, LOCKS.TIER3 },    
     keys_given={ KEYS.GOLD, KEYS.TEIR4, KEYS.SPIDERS, KEYS.CHESSMEN }, -- Future Release?
     room_choices =
     {
 	["ChessArea"] = 1,
-    ["WalrusHut_Rocky"] = 2,
-	["SpiderVillage"] = 1
+    ["WalrusHut_Desert"] = 2,
+	["SpiderVillageDesert"] = 1
     },
     room_bg=GROUND.DIRT,
     background_room="BGBadlands",
@@ -82,14 +82,14 @@ AddTask("Quarrelious Quarry",  {
 
 AddTask("Desert Start",  {  
     locks={ LOCKS.NONE },    
-    keys_given={ KEYS.TEIR2, KEYS.PICKAXE, KEYS.AXE }, 
+    keys_given={ KEYS.TEIR2, KEYS.PICKAXE, KEYS.AXE, KEYS.GOLD }, 
     room_choices =
     {
     ["Rocky"] = 1,
     ["DesertStartArea"] = 1,
     },
 	room_bg=GROUND.DIRT,
-	background_room="BGBadlands",
+	background_room="DesertStartArea",
 	colour={r=1,g=0.6,b=1,a=1}
   }
 )
@@ -105,14 +105,60 @@ AddRoom("DesertStartArea",  {
       }
     }
 })
- 
+
+AddRoom("SpiderVillageDesert", {
+	colour={r=.30,g=.20,b=.50,a=.50},
+	value = GROUND.DIRT_NOISE,
+	contents =  {
+        countprefabs= {
+            goldnugget = function() return 3 + math.random(3) end,
+			spiderden = function () return 5 + math.random(3) end
+			},
+		distributepercent = 0.1,
+		distributeprefabs = {
+		    rock1 = 1,
+			rock2 = 1,
+			rocks = 1,
+		},
+		prefabdata = {
+			spiderden = function() if math.random() < 0.2 then
+				return { growable={stage=2}}
+					else
+						return { growable={stage=1}}
+					end
+				end,
+		},
+   }
+})
+
+AddRoom("WalrusHut_Desert", {
+	colour ={r=0.3,g=0.2,b=0.1,a=0.3},
+	value = GROUND.DIRT_NOISE,
+	contents = {
+		countprefabs = {
+			walrus_camp = 1
+			},
+		distributepercent = 0.07,
+		distributeprefabs =
+			{
+			marsh_bush = 0.05,
+			marsh_tree = 0.2,
+			rock_flintless = 1,
+			grass = 0.1,
+			grassgekko = 0.4,
+			houndbone = 0.2,
+			cactus = 0.2,
+			tumbleweedspawner = .05,
+			}
+	}
+})
 
  
 AddStartLocation("desertstart", {
     name = "Desert",
     location = "forest",
     start_setpeice = "DefaultStart",
-    start_node = "BGRocky"
+    start_node = "BGGrass"
 }) 
 
 

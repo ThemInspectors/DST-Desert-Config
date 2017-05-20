@@ -1,4 +1,4 @@
-## 1.0
+"## 1.0
 
   ### Desert-Only Preset
     - get it all working
@@ -11,7 +11,9 @@
     - add an option to choose how many deserts can spawn in normal worlds
     - Pig king desert
   ### Desert-Only Preset
-    - custom Pig king desert
+    - "Pig king" Oasis
+    - "Bee" Oasis
+    - "Lunar" Oasis
     - optional deserts
     - some biomes to make you less dead.
 

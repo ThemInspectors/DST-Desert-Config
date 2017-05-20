@@ -24,6 +24,7 @@ require("map/tasks")
 require("map/rooms")
 require("map/terrain")
 require("map/level")
+require("map/startlocations")
  
 local blockersets = require("map/blockersets")
  
@@ -34,76 +35,148 @@ local GROUND = GLOBAL.GROUND
 local LEVELTYPE = GLOBAL.LEVELTYPE
  
 AddTaskSetPreInitAny(function(tasksetdata)
- 
   GLOBAL.dumptable(tasksetdata)
 end)
- 
+
+ AddRoomPreInit("PondyGrass", function(room) room.contents.distributeprefabs.pond = 0.05 end)
+
+
  
 --Tasksets!
 AddTaskSet("desertonly", {
     name = "Desert-Only",
     location = "forest",
     tasks = {  
-    "Desert Start" 
+    "Desert Start", 
     "Badlands", -- Desert, important
     "Lightning Bluff", -- Derset, Important
     "Oasis", -- A cool desert addition
-    "Quarry" -- custom quarry
+	"Quarrelious Quarry" -- custom quarry
     },
 --    numoptionaltasks = 0,
 --    optionaltasks = {},
     valid_start_tasks = {
     "Desert Start"
-    }
+    },
+    ["ResurrectionStone"] = { count = 2, tasks={ "Badlands", "Oasis", "Desert Start", "Lightning Bluff" } },
+    ["WormholeGrass"] = { count = 16, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff"} },
+--    ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
+    ["CaveEntrance"] = { count = 10, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff"} },	
   }
 )
 
-AddTask("Quarry",  {  
---    locks={ LOCKS.PICKAXE, LOCKS.TIER1 },    
---    keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4, KEYS.TEIR2 }, -- Future Release?
+AddTask("Quarrelious Quarry",  {  
+    locks={ LOCKS.ROCKS, LOCKS.TIER1 },    
+    keys_given={ KEYS.GOLD, KEYS.TEIR4, KEYS.SPIDERS, KEYS.CHESSMEN }, -- Future Release?
     room_choices =
     {
-    ["Rocky"] = 2,
-    ["WalrusHut_Rocky"] = 2   
+	["ChessArea"] = 1,
+    ["WalrusHut_Rocky"] = 2,
+	["SpiderVillage"] = 1
     },
-    room_bg=GROUND.ROCKY,
-    background_room="BGRocky",
+    room_bg=GROUND.DIRT,
+    background_room="BGBadlands",
     colour={r=1,g=1,b=0,a=1}
   }
 )
 
 AddTask("Desert Start",  {  
---    locks={ LOCKS.PICKAXE, LOCKS.TIER1 },    
---    keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4, KEYS.TEIR2 }, -- Future Release?
+    locks={ LOCKS.NONE },    
+    keys_given={ KEYS.TEIR2, KEYS.PICKAXE, KEYS.AXE }, 
     room_choices =
     {
     ["Rocky"] = 1,
-    ["DesertStartArea"] = 1
+    ["DesertStartArea"] = 1,
     },
-		room_bg=GROUND.DIRT,
-		background_room="BGBadlands",
-		colour={r=1,g=0.6,b=1,a=1},
+	room_bg=GROUND.DIRT,
+	background_room="BGBadlands",
+	colour={r=1,g=0.6,b=1,a=1}
   }
 )
  
 AddRoom("DesertStartArea",  {
   -- tags = {}, -- Tags for marking during worldgen, for example, road poison or chester eyeybone
-   contents =  {
-     distributepercent = 0.45,
-     distributeprefabs=
-       {
-       flint=0.3,
-       twigs=0.3,
-       grassgekko=0.4,
-       
-       },
-     }
+    contents =  {
+    distributepercent = 0.45,
+    distributeprefabs = {
+	flint=0.3,
+    twigs=0.3,
+    grassgekko=0.4
+      }
+    }
 })
  
+
  
- 
- 
- 
+AddStartLocation("desertstart", {
+    name = "Desert",
+    location = "forest",
+    start_setpeice = "DefaultStart",
+    start_node = "BGRocky"
+}) 
+
+
+AddLevel(LEVELTYPE.SURVIVAL, { 
+		id = "DESERTONLY",
+		name = "Desert-Only",
+		desc = "Desert-Only Challenge!",
+		location = "forest",
+		version = 2,
+		overrides = {
+			task_set = "desertonly",
+			start_location = "desertstart",
+		ordered_story_setpieces = {
+			"Sculptures_1",
+			"Maxwell5",
+		},
+		numrandom_set_pieces = 4,
+		random_set_pieces = 
+		{
+			"Sculptures_2",
+			"Sculptures_3",
+			"Sculptures_4",
+			"Sculptures_5",
+			"Chessy_1",
+			"Chessy_2",
+			"Chessy_3",
+			"Chessy_4",
+			"Chessy_5",
+			"Chessy_6",
+			--"ChessSpot1",
+			--"ChessSpot2",
+			--"ChessSpot3",
+			"Maxwell1",
+			"Maxwell2",
+			"Maxwell3",
+			"Maxwell4",
+			"Maxwell6",
+			"Maxwell7",
+			"Warzone_1",
+			"Warzone_2",
+			"Warzone_3",
+		},
+		},		
+	})
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 -- Templates.
 --[=====[ 
 AddTaskSet("moarbananas", { -- ID of Task Set, not shown to the user

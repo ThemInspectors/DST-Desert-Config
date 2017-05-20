@@ -44,7 +44,7 @@ AddTaskSet("desertonly", {
     name = Desert,
     location = "forest",
     tasks = {
-    "Make a pick", --Starting, Important
+    "Make a pick", --Get/make a replacemnt 
     "Badlands", -- Desert, important
     "Lightning Bluff", -- Derset, Important
     "Oasis", -- A cool desert addition
@@ -59,8 +59,8 @@ AddTaskSet("desertonly", {
 )
 
 AddTask("Rocky Quarry",  {  
-    locks={ LOCKS.PICKAXE, LOCKS.TIER1 },    
-    keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4, KEYS.TEIR2 }, -- Future Release?
+--    locks={ LOCKS.PICKAXE, LOCKS.TIER1 },    
+--    keys_given={ KEYS.ADVANCED_COMBAT, KEYS.TEIR3, KEYS.TEIR4, KEYS.TEIR2 }, -- Future Release?
     room_choices =
     {
     ["Rocky"] = 2,

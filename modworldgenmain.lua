@@ -38,10 +38,20 @@ AddTaskSetPreInitAny(function(tasksetdata)
   GLOBAL.dumptable(tasksetdata)
 end)
 
- AddRoomPreInit("PondyGrass", function(room) room.contents.distributeprefabs.pond = 0.05 end)
+AddRoomPreInit("PondyGrass", function(room) room.contents.distributeprefabs.pond = 0.05 end)
 
 
- 
+
+	
+	
+	
+	
+	
+	
+--	
+-- Custom Tasks, Rooms, Tasksets, starting areas and alot of things.	
+--
+
 --Tasksets!
 AddTaskSet("desertonly", {
     name = "Desert-Only",
@@ -51,20 +61,23 @@ AddTaskSet("desertonly", {
     "Badlands", -- Desert, important
     "Lightning Bluff", -- Derset, Important
     "Oasis", -- A cool desert addition
-	"Quarrelious Desert" -- custom Desert Area
+    "Quarrelious Desert" -- custom Desert Area
     },
 --    numoptionaltasks = 0,
 --    optionaltasks = {},
     valid_start_tasks = {
     "Desert Start"
     },
-    ["ResurrectionStone"] = { count = 2, tasks={ "Badlands", "Oasis", "Desert Start", "Lightning Bluff" } },
-    ["WormholeGrass"] = { count = 16, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff"} },
+ 
+set_pieces = { --set pieces
+    ["ResurrectionStone"] = { count = 2, tasks={ "Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert" } },
+    ["WormholeGrass"] = { count = 8, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff"}, "Quarrelious Desert" },
 --    ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
-    ["CaveEntrance"] = { count = 10, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff"} },	
-  }
-)
+    ["CaveEntrance"] = { count = 10, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert"} },
+    },
+})
 
+-- Tasks
 AddTask("Quarrelious Desert",  {  
     locks={ LOCKS.ROCKS, LOCKS.TIER3 },    
     keys_given={ KEYS.GOLD, KEYS.TEIR4, KEYS.SPIDERS, KEYS.CHESSMEN }, -- Future Release?
@@ -93,7 +106,8 @@ AddTask("Desert Start",  {
 	colour={r=1,g=0.6,b=1,a=1}
   }
 )
- 
+
+-- rooms
 AddRoom("DesertStartArea",  {
   -- tags = {}, -- Tags for marking during worldgen, for example, road poison or chester eyeybone
     contents =  {
@@ -105,6 +119,7 @@ AddRoom("DesertStartArea",  {
       }
     }
 })
+
 
 AddRoom("SpiderVillageDesert", {
 	colour={r=.30,g=.20,b=.50,a=.50},

@@ -172,8 +172,8 @@ AddRoom("WalrusHut_Desert", {
 AddStartLocation("desertstart", {
     name = "Desert",
     location = "forest",
-    start_setpeice = "DefaultStart",
-    start_node = "BGGrass"
+    start_setpeice = "desert_start",
+    start_node = "BGBadlands"
 }) 
 
 

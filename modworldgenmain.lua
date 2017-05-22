@@ -80,9 +80,9 @@ AddTask("Quarrelious Desert",  {
     keys_given={ KEYS.GOLD, KEYS.TEIR4, KEYS.SPIDERS, KEYS.CHESSMEN }, -- Future Release?
     room_choices =
     {
-	["ChessArea"] = 1,
+    ["ChessArea"] = 1,
     ["WalrusHut_Desert"] = 2,
-	["SpiderVillageDesert"] = 1
+    ["SpiderVillageDesert"] = 1
     },
     room_bg=GROUND.DIRT,
     background_room="BGBadlands",
@@ -96,7 +96,7 @@ AddTask("Desert Start",  {
     room_choices =
     {
     ["Rocky"] = 1,
-    ["DesertStartArea"] = 1,
+    ["BGBadlands"] = 1,
     },
 	room_bg=GROUND.DIRT,
 	background_room="BGBadlands",
@@ -105,17 +105,6 @@ AddTask("Desert Start",  {
 )
 
 -- rooms
-AddRoom("DesertStartArea",  {
-  -- tags = {}, -- Tags for marking during worldgen, for example, road poison or chester eyeybone
-    contents =  {
-    distributepercent = 0.45,
-    distributeprefabs = {
-	flint=0.3,
-    twigs=0.3,
-    grassgekko=0.4
-      }
-    }
-})
 
 
 AddRoom("SpiderVillageDesert", {
@@ -170,7 +159,7 @@ AddStartLocation("desertstart", {
     name = "Desert",
     location = "forest",
     start_setpeice = "desert_start",
-    start_node = {"BGBadlands", "Clearing"}
+    start_node = {"BGBadlands"}
 }) 
 
 
@@ -183,7 +172,7 @@ AddLevel(LEVELTYPE.SURVIVAL, {
 		overrides = {
 			task_set = "desertonly",
 			start_location = "desertstart",
-			roads = "never",
+			roads = "never", -- not working ):
 		ordered_story_setpieces = {
 			"Sculptures_1",
 			"Maxwell5",

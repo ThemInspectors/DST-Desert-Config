@@ -170,7 +170,7 @@ AddStartLocation("desertstart", {
     name = "Desert",
     location = "forest",
     start_setpeice = "desert_start",
-    start_node = "BGBadlands"
+    start_node = {"BGBadlands", "Clearing"}
 }) 
 
 
@@ -183,6 +183,7 @@ AddLevel(LEVELTYPE.SURVIVAL, {
 		overrides = {
 			task_set = "desertonly",
 			start_location = "desertstart",
+			roads = "never",
 		ordered_story_setpieces = {
 			"Sculptures_1",
 			"Maxwell5",

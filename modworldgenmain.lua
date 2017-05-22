@@ -30,9 +30,15 @@ local blockersets = require("map/blockersets")
  
 local LOCKS = GLOBAL.LOCKS
 local KEYS = GLOBAL.KEYS
- 
+
 local GROUND = GLOBAL.GROUND
 local LEVELTYPE = GLOBAL.LEVELTYPE
+
+local Layouts = GLOBAL.require("map/layouts").Layouts
+local StaticLayout = GLOBAL.require("map/static_layout")
+
+
+Layouts["desert_start"] = StaticLayout.Get("map/static_layouts/desert_start")
  
 AddTaskSetPreInitAny(function(tasksetdata)
   GLOBAL.dumptable(tasksetdata)
@@ -40,15 +46,6 @@ end)
 
 AddRoomPreInit("PondyGrass", function(room) room.contents.distributeprefabs.pond = 0.05 end)
 
-
-
-	
-	
-	
-	
-	
-	
---	
 -- Custom Tasks, Rooms, Tasksets, starting areas and alot of things.	
 --
 
@@ -71,7 +68,7 @@ AddTaskSet("desertonly", {
  
 set_pieces = { --set pieces
     ["ResurrectionStone"] = { count = 2, tasks={ "Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert" } },
-    ["WormholeGrass"] = { count = 8, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff"}, "Quarrelious Desert" },
+    ["WormholeGrass"] = { count = 8, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert"} },
 --    ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
     ["CaveEntrance"] = { count = 10, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert"} },
     },
@@ -102,7 +99,7 @@ AddTask("Desert Start",  {
     ["DesertStartArea"] = 1,
     },
 	room_bg=GROUND.DIRT,
-	background_room="DesertStartArea",
+	background_room="BGBadlands",
 	colour={r=1,g=0.6,b=1,a=1}
   }
 )

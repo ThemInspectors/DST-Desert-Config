@@ -34,20 +34,6 @@ local KEYS = GLOBAL.KEYS
 local GROUND = GLOBAL.GROUND
 local LEVELTYPE = GLOBAL.LEVELTYPE
 
---[=====[ 
-if GetModConfigData("desutil") then
-local function LevelPreInit(level)
-	table.insert(level.tasks, "") --PK
-  table.insert(level.tasks, "") -- Moonbase 
-  table.insert(level.tasks, "") -- Bees
-elseif GetModConfigData("desutil") and false then
-  table.insert(level.tasks, "")
-end  
---]=====]
-  
-
-    
-        
 local Layouts = GLOBAL.require("map/layouts").Layouts
 local StaticLayout = GLOBAL.require("map/static_layout")
 
@@ -62,6 +48,7 @@ AddRoomPreInit("PondyGrass", function(room) room.contents.distributeprefabs.pond
 
 -- Custom Tasks, Rooms, Tasksets, starting areas and alot of things.	
 --
+
 --Tasksets!
 AddTaskSet("desertonly", {
     name = "Desert-Only",
@@ -93,7 +80,6 @@ AddTask("Quarrelious Desert",  {
     keys_given={ KEYS.GOLD, KEYS.TEIR4, KEYS.SPIDERS, KEYS.CHESSMEN }, -- Future Release?
     room_choices =
     {
-=======
     ["ChessArea"] = 1,
     ["WalrusHut_Desert"] = 2,
     ["SpiderVillageDesert"] = 1

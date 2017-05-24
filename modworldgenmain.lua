@@ -30,7 +30,7 @@ local blockersets = require("map/blockersets")
  
 local LOCKS = GLOBAL.LOCKS
 local KEYS = GLOBAL.KEYS
- 
+
 local GROUND = GLOBAL.GROUND
 local LEVELTYPE = GLOBAL.LEVELTYPE
 
@@ -45,19 +45,23 @@ elseif GetModConfigData("desutil") and false then
 end  
 --]=====]
   
-  
+
+    
+        
+local Layouts = GLOBAL.require("map/layouts").Layouts
+local StaticLayout = GLOBAL.require("map/static_layout")
+
+
+Layouts["desert_start"] = StaticLayout.Get("map/static_layouts/desert_start")
+ 
 AddTaskSetPreInitAny(function(tasksetdata)
   GLOBAL.dumptable(tasksetdata)
 end)
 
- AddRoomPreInit("PondyGrass", function(room) room.contents.distributeprefabs.pond = 0.05 end)
+AddRoomPreInit("PondyGrass", function(room) room.contents.distributeprefabs.pond = 0.05 end)
 
-
-	
-	
-	
-	
- 
+-- Custom Tasks, Rooms, Tasksets, starting areas and alot of things.	
+--
 --Tasksets!
 AddTaskSet("desertonly", {
     name = "Desert-Only",
@@ -67,28 +71,32 @@ AddTaskSet("desertonly", {
     "Badlands", -- Desert, important
     "Lightning Bluff", -- Derset, Important
     "Oasis", -- A cool desert addition
-	  "Quarrelious Desert" -- custom Desert Area
+    "Quarrelious Desert" -- custom Desert Area
     },
 --    numoptionaltasks = 0,
 --    optionaltasks = {},
     valid_start_tasks = {
     "Desert Start"
     },
-    ["ResurrectionStone"] = { count = 2, tasks={ "Badlands", "Oasis", "Desert Start", "Lightning Bluff" } },
-    ["WormholeGrass"] = { count = 16, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff"} },
+ 
+set_pieces = { --set pieces
+    ["ResurrectionStone"] = { count = 2, tasks={ "Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert" } },
+    ["WormholeGrass"] = { count = 8, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert"} },
 --    ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
-    ["CaveEntrance"] = { count = 10, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff"} },	
-  }
-)
+    ["CaveEntrance"] = { count = 10, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert"} },
+    },
+})
 
+-- Tasks
 AddTask("Quarrelious Desert",  {  
     locks={ LOCKS.ROCKS, LOCKS.TIER3 },    
     keys_given={ KEYS.GOLD, KEYS.TEIR4, KEYS.SPIDERS, KEYS.CHESSMEN }, -- Future Release?
     room_choices =
     {
-	["ChessArea"] = 1,
-  ["WalrusHut_Desert"] = 2,
-	["SpiderVillageDesert"] = 1
+=======
+    ["ChessArea"] = 1,
+    ["WalrusHut_Desert"] = 2,
+    ["SpiderVillageDesert"] = 1
     },
     room_bg=GROUND.DIRT,
     background_room="BGBadlands",
@@ -102,25 +110,16 @@ AddTask("Desert Start",  {
     room_choices =
     {
     ["Rocky"] = 1,
-    ["DesertStartArea"] = 1,
+    ["BGBadlands"] = 1,
     },
 	room_bg=GROUND.DIRT,
-	background_room="DesertStartArea",
+	background_room="BGBadlands",
 	colour={r=1,g=0.6,b=1,a=1}
   }
 )
- 
-AddRoom("DesertStartArea",  {
-  -- tags = {}, -- Tags for marking during worldgen, for example, road poison or chester eyeybone
-    contents =  {
-    distributepercent = 0.45,
-    distributeprefabs = {
-	flint=0.3,
-    twigs=0.3,
-    grassgekko=0.4
-      }
-    }
-})
+
+-- rooms
+
 
 AddRoom("SpiderVillageDesert", {
 	colour={r=.30,g=.20,b=.50,a=.50},
@@ -173,8 +172,8 @@ AddRoom("WalrusHut_Desert", {
 AddStartLocation("desertstart", {
     name = "Desert",
     location = "forest",
-    start_setpeice = "DefaultStart",
-    start_node = "BGGrass"
+    start_setpeice = "desert_start",
+    start_node = {"BGBadlands"}
 }) 
 
 
@@ -187,6 +186,7 @@ AddLevel(LEVELTYPE.SURVIVAL, {
 		overrides = {
 			task_set = "desertonly",
 			start_location = "desertstart",
+			roads = "never", -- not working ):
 		ordered_story_setpieces = {
 			"Sculptures_1",
 			"Maxwell5",

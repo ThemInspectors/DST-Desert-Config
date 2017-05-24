@@ -1,8 +1,4 @@
-## 1.1 (Future version)
-    - Touchstones and wormholes
-    - fix issue #1
-    - bug fixes
-## 2.0 (Distant Future Version)
+## 2.0 (Major Future Version)
 
   ### Normal worlds
     - some optional deserts

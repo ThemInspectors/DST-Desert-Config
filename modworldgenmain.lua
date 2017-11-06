@@ -60,7 +60,7 @@ local function addDesertTasks(taskset)
   if GetModConfigData("desutil") then
       print("DST-Desert-Config: Desert Utility: Enabled")
       table.insert(taskset.tasks, "Desert King")
---      table.insert(taskset.tasks, "Moon Oasis") -- Is crashing
+      table.insert(taskset.tasks, "Moon Oasis")
       if GetModConfigData ("remdupe") then
         print("DST-Desert-Config: Remove Dupelicates: Enabled")
         removeTasks(taskset, "Speak to the king")
@@ -210,14 +210,14 @@ AddRoom("Moon Magic", {
     contents = {
         countstaticlayouts={
           ["MoonbaseOne"]=1,
-          ["MagicalDeciduous"] = 1,
+          ["DeciduousPond"] = 1,
         },
-        distributepercent = 0.3,
+        distributepercent = 0.2,
         distributeprefabs = {
           grass = .03,
           sapling=1,
           twiggytree=0.4,
-          berrybush=1,
+          berrybush=0.3,
           berrybush_juicy = 0.05,
           red_mushroom = 2,
           blue_mushroom = 2,

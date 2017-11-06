@@ -13,7 +13,7 @@
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with this program. If not, see <http://w...content-available-to-author-only...u.org/licenses/>.
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 --]=====]
 
@@ -40,14 +40,43 @@ local StaticLayout = GLOBAL.require("map/static_layout")
 
 Layouts["desert_start"] = StaticLayout.Get("map/static_layouts/desert_start")
 
-AddTaskSetPreInitAny(function(tasksetdata)
-    GLOBAL.dumptable(tasksetdata)
-end)
+local randomDesertTasks = {
+  "",
+}
 
 AddRoomPreInit("PondyGrass", function(room) room.contents.distributeprefabs.pond = 0.05 end)
 
--- Custom Tasks, Rooms, Tasksets, starting areas and alot of things.
+local function removeTasks(taskset,name)
+  for index,key in ipairs(taskset.tasks) do
+    if key == name then
+      table.remove(taskset.tasks, index)
+      print("DST-Desert-Config: Removed task: "..name)
+      break
+    end
+  end
+end
+local function addDesertTasks(taskset)
+  if taskset.location ~= "forest" then return end --early return for caves
+  if GetModConfigData("desutil") then
+      print("DST-Desert-Config: Desert Utility: Enabled")
+      table.insert(taskset.tasks, "Desert King")
+--      table.insert(taskset.tasks, "Moon Oasis") -- Is crashing
+      if GetModConfigData ("remdupe") then
+        print("DST-Desert-Config: Remove Dupelicates: Enabled")
+        removeTasks(taskset, "Speak to the king")
+        removeTasks(taskset, "Forest hunters")
+      end
+  end
+  if GetModConfigData("desopt") > 0 then
+    for i = math.random(1, #randomDesertTasks), GetModConfigData("desopt") do
+      table.insert(level.tasks, randomDesertTasks[i])
+      table.remove(randomDesertTasks, i)
+    end
+  end
+end
 
+AddTaskSetPreInitAny(addDesertTasks)
+-- Custom Tasks, Rooms, Tasksets, starting areas and alot of things.
 --Tasksets!
 AddTaskSet("desertonly", {
     name = "Desert-Only",
@@ -58,7 +87,6 @@ AddTaskSet("desertonly", {
         "Lightning Bluff", -- Derset, Important
         "Oasis", -- A cool desert addition
         "Quarrelious Desert", -- custom Desert Area
-        "Don't Speak to the King!"
     },
 --    numoptionaltasks = 0,
 --    optionaltasks = {},
@@ -75,6 +103,19 @@ set_pieces = { --set pieces
 })
 
 -- Tasks
+AddTask("Moon Oasis",  {
+    locks={ LOCKS.ROCKS, LOCKS.TIER3 },
+    keys_given={ KEYS.GOLD, KEYS.TEIR4, KEYS.SPIDERS, KEYS.CHESSMEN, KEYS.WALRUS, KEYS.TEIR5}, -- Future Release?
+    room_choices = {
+        ["Moon Magic"] = 1,
+        ["BGBadlands"] = 2,
+    },
+    room_bg=GROUND.DIRT,
+    background_room="BGBadlands",
+    colour={r=1,g=1,b=0,a=1}
+    }
+)
+
 AddTask("Quarrelious Desert",  {
     locks={ LOCKS.ROCKS, LOCKS.TIER3 },
     keys_given={ KEYS.GOLD, KEYS.TEIR4, KEYS.SPIDERS, KEYS.CHESSMEN, KEYS.WALRUS, KEYS.TEIR5}, -- Future Release?
@@ -101,12 +142,14 @@ AddTask("Desert Start",  {
     colour={r=1,g=0.6,b=1,a=1}
 })
 
-AddTask("Don't Speak to the King!", {
-    locks = {LOCKS.NONE}, -- set it to none because of crashing ):
-    keys_given = {KEYS.NONE}, -- set it to none because of crashing ):
+AddTask("Desert King", {
+    locks = {LOCKS.TIER3, LOCKS.SPIDERS_DEFEATED, LOCKS.PIGGIFTS}, -- set it to none because of crashing ):
+    keys_given = {KEYS.TEIR4}, -- set it to none because of crashing ):
     entrance_room=blockersets.pigs_hard,
+    entrance_room_chance=0.75,
     room_choices = {
         ["PigCity"] = 1,
+        ["BGBadlands"] = 1,
     },
     room_bg=GROUND.GRASS,
     background_room="BGBadlands",
@@ -161,6 +204,37 @@ AddRoom("WalrusHut_Desert", {
     }
 })
 
+AddRoom("Moon Magic", {
+    colour ={r=0,g=.9,b=0,a=.50},
+    value = GROUND.DECIDUOUS,
+    contents = {
+        countstaticlayouts={
+          ["MoonbaseOne"]=1,
+          ["MagicalDeciduous"] = 1,
+        },
+        distributepercent = 0.3,
+        distributeprefabs = {
+          grass = .03,
+          sapling=1,
+          twiggytree=0.4,
+          berrybush=1,
+          berrybush_juicy = 0.05,
+          red_mushroom = 2,
+          blue_mushroom = 2,
+          green_mushroom = 2,
+
+          fireflies = 4,
+          flower=5,
+
+          molehill = 2,
+          catcoonden = .25,
+
+          berrybush = 3,
+          berrybush_juicy = 1.5,
+      },
+    }
+})
+
 -- Custom desert start location with chest
 AddStartLocation("desertstart", {
     name = "Desert",
@@ -208,74 +282,3 @@ AddLevel(LEVELTYPE.SURVIVAL, {
         },
     },
 })
--- Templates.
---[=====[
-AddTaskSet("moarbananas", { -- ID of Task Set, not shown to the user
-    name = More Bananas, -- Name of Task Set, shown to the user in world generation options under Worldgen:Biomes
-        location = "forest", --location area of biomes, either "caves" or "forest"
-    tasks = { -- list of Forest Tasks forced to spawn. The caves ones are in the in DST files under data/scripts/map/tasksets/caves.lua
-      "Make a pick", -- starting area
-      "Dig that rock", -- quarry
-      "Great Plains", -- ???
-      "Squeltch", -- swamp
-      "Beeeees!", -- beequeen area
-      "Speak to the king", -- self-explainatory
-      "Forest hunters", -- MacTusk camp in a forest
-      "Badlands", -- DFly Desert
-      "For a nice walk", -- odd
-      "Lightning Bluff", -- Antlion Desert
-    },
-    numoptionaltasks = 5,
-    optionaltasks = {
-      "Befriend the pigs", -- Pig Village?
-      "Kill the spiders", -- uhhh?
-      "Killer bees!", -- KB field?
-      "Make a Beehat", -- ???
-      "The hunters", -- triple mactusk area; Rockyland w/ tallbirds, grassland and savanna
-      "Magic meadow", -- ???
-      "Frogs and bugs", -- ???
-      "Mole Colony Deciduous", -- ???
-      "Mole Colony Rocks", -- ???
-      "MooseBreedingTask", -- area with lotso moose nests
-    },
-        valid_start_tasks = {
-            "Make a pick",
-        },
-    set_pieces = { --set pieces
-      ["ResurrectionStone"] = { count = 2, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Badlands" } },
-      ["WormholeGrass"] = { count = 16, tasks={"Make a pick", "Dig that rock", "Great Plains", "Squeltch", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Kill the spiders", "Killer bees!", "Make a Beehat", "The hunters", "Magic meadow", "Frogs and bugs", "Badlands"} },
-      ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
-      ["CaveEntrance"] = { count = 10, tasks={"Make a pick"} },
-    },
-
-  })
-
-AddTask("Banana Jungle",  {
-      locks={  }, --Locks go here
-      keys_given={  }, --keys go here | used to link some Tasks together
-      entrance_room_chance=0.5,
-      entrance_room="",
-      room_choices =
-              {
-                ["BG_BANANA_LAND"] = 2,
-                ["BananaKingdom"] = 1,-              },
-            room_bg=GROUND.BRICK,
-            background_room="BG_BANANA_LAND", -- background
-            colour={r=0,g=0,b=0,a=0}, copy the colour from a related biome in the game's files XD
-          }
-  )
-
-AddRoom("BG_BANANA_LAND",  {
-      tags = {}, -- Tags for marking during worldgen, for example, road poison or chester eyeybone
-      contents =  {
-                      distributepercent = .2,
-                      distributeprefabs=
-                      {
-                        deciduoustree=6,
-
-                    pighouse=1,
-
-                          },
-                      }
-          })
---]=====]

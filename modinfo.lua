@@ -26,24 +26,27 @@ configuration_options = {
 	},
   {
     name = "remdupe",
-    label = "Remove Dupelicates",
-      hover = "Removes dupelicate Utility Biomes if Utility Deserts are enabled.",
+    label = "Remove Duplicates",
+      hover = "Removes duplicate Utility Biomes if Utility Deserts are enabled.",
       options =	{
               {description = "Disabled", data = false, hover = "Keeps Utility Biomes!"},
               {description = "Enabled", data = true, hover = "Removes Utility Biomes!"},
             },
     default = true,
   },
+
   {
   name = "desopt",
   label = "Optional Deserts",
-    hover = "How many optional deserts to spawn.\ncurrently only works for Desert-Only Worlds.",
+    --hover = "How many optional deserts to spawn.\ncurrently only works for Desert-Only Worlds.",
+    hover = "Coming soon.",
   options = {
-      {description = "None", data = 0, hover = "No Optional Deserts wil spawn."},
-      {description = "1", data = 1, hover = "Spawns 1 Optional Desert!"},
-      {description = "2", data = 2, hover = "Spawns 2 Optional Deserts!"},
-      {description = "3", data = 3, hover = "Spawns 3 Optional Deserts!"},
+        {description = "Blocked", data = false, hover = "Coming soon!"},
+      --{description = "None", data = false, hover = "No Optional Deserts will spawn."},
+      --{description = "1", data = 1, hover = "Spawns 1 Optional Desert!"},
+      --{description = "2", data = 2, hover = "Spawns 2 Optional Deserts!"},
+      --{description = "3", data = 3, hover = "Spawns 3 Optional Deserts!"},
     },
-  default = 0,
+  default = false,
   },
 }

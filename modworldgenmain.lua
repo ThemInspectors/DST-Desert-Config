@@ -39,9 +39,13 @@ local StaticLayout = GLOBAL.require("map/static_layout")
 
 
 Layouts["desert_start"] = StaticLayout.Get("map/static_layouts/desert_start")
+Layouts["Desert-Config-Graveyard"] = StaticLayout.Get("map/static_layouts/dev_graveyard")
 
 local randomDesertTasks = {
-  "",
+  "Desert Graveyard",
+  "The Runoff",
+  "The Drylands",
+--  "Placeholder.",
 }
 
 AddRoomPreInit("PondyGrass", function(room) room.contents.distributeprefabs.pond = 0.05 end)
@@ -55,24 +59,33 @@ local function removeTasks(taskset,name)
     end
   end
 end
+
 local function addDesertTasks(taskset)
   if taskset.location ~= "forest" then return end --early return for caves
   if GetModConfigData("desutil") then
       print("DST-Desert-Config: Desert Utility: Enabled")
       table.insert(taskset.tasks, "Desert King")
       table.insert(taskset.tasks, "Moon Oasis")
+      table.insert(taskset.tasks, "Bee Bungaloo")
       if GetModConfigData ("remdupe") then
         print("DST-Desert-Config: Remove Dupelicates: Enabled")
         removeTasks(taskset, "Speak to the king")
         removeTasks(taskset, "Forest hunters")
+        removeTasks(taskset, "Beeeees!")
       end
   end
-  if GetModConfigData("desopt") > 0 then
-    for i = math.random(1, #randomDesertTasks), GetModConfigData("desopt") do
-      table.insert(level.tasks, randomDesertTasks[i])
-      table.remove(randomDesertTasks, i)
-    end
+  --[=[
+  if GetModConfigData("desopt") then
+    local i = 1
+    while( i == GetModConfigData("desopt") ) do
+        local k = math.random(1, #randomDesertTasks)
+        table.insert(taskset.tasks, randomDesertTasks[k])
+        table.remove(randomDesertTasks, k)
+        print(randomDesertTasks[k])
+        i = i + 1
+      end
   end
+  --]=]
 end
 
 AddTaskSetPreInitAny(addDesertTasks)
@@ -91,21 +104,22 @@ AddTaskSet("desertonly", {
 --    numoptionaltasks = 0,
 --    optionaltasks = {},
     valid_start_tasks = {
-        "Desert Start"
+        "Desert Start",
+        --"Desert Graveyard"
     },
 
 set_pieces = { --set pieces
     ["ResurrectionStone"] = { count = 2, tasks={ "Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert" } },
     ["WormholeGrass"] = { count = 8, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert"} },
---    ["MooseNest"] = { count = 9, tasks={"Make a pick", "Beeeees!", "Speak to the king", "Forest hunters", "Befriend the pigs", "For a nice walk", "Make a Beehat", "Magic meadow", "Frogs and bugs"} },
-    ["CaveEntrance"] = { count = 10, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert"} },
+    ["MooseNest"] = { count = 3, tasks={"Moon Oasis", "Desert King", "Bee Bungaloo", "Desert Graveyard", "The Drylands", "The Runoff"} },
+    ["CaveEntrance"] = { count = 10, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert", "Desert King", "Moon Oasis", "Bee Bungaloo"} },
     },
 })
 
 -- Tasks
 AddTask("Moon Oasis",  {
-    locks={ LOCKS.ROCKS, LOCKS.TIER3 },
-    keys_given={ KEYS.GOLD, KEYS.TEIR4, KEYS.SPIDERS, KEYS.CHESSMEN, KEYS.WALRUS, KEYS.TEIR5}, -- Future Release?
+  locks={ LOCKS.TIER2, LOCKS.BASIC_COMBAT},
+  keys_given={KEYS.BEEHAT, KEYS.TIER3},-- Future Release?
     room_choices = {
         ["Moon Magic"] = 1,
         ["BGBadlands"] = 2,
@@ -116,9 +130,45 @@ AddTask("Moon Oasis",  {
     }
 )
 
+AddTask("The Runoff", {
+  locks={LOCKS.TIER4},
+  keys_given={KEYS.MERMS},
+  room_choices = {
+    ["SlightlyMermySwamp"] = 1,
+    ["BGBadlands"]= 2,
+  },
+  room_bg=GROUND.MARSH,
+  background_room="BGBadlands",
+  colour={r=1,g=1,b=0,a=1}
+})
+
+AddTask("The Drylands", {
+  locks={LOCKS.TIER2},
+  keys_given={KEYS.NONE},
+  room_choices = {
+		["BGSavanna"] = 1,
+    ["BGBadlands"]= 2,
+  },
+  room_bg=GROUND.DIRT,
+  background_room="BGBadlands",
+  colour={r=1,g=1,b=0,a=1}
+})
+
+AddTask("Bee Bungaloo", {
+  locks={LOCKS.TIER3, LOCKS.KILLERBEES, LOCKS.BEEHIVE},
+  keys_given={KEYS.TIER4, KEYS.HONEY},
+  room_choices = {
+    ["Bee Oasis"] = 1,
+    ["BGBadlands"]= 2,
+  },
+  room_bg=GROUND.DIRT,
+  background_room="BGBadlands",
+  colour={r=1,g=1,b=0,a=1}
+})
+
 AddTask("Quarrelious Desert",  {
     locks={ LOCKS.ROCKS, LOCKS.TIER3 },
-    keys_given={ KEYS.GOLD, KEYS.TEIR4, KEYS.SPIDERS, KEYS.CHESSMEN, KEYS.WALRUS, KEYS.TEIR5}, -- Future Release?
+    keys_given={ KEYS.GOLD, KEYS.TIER4, KEYS.SPIDERS, KEYS.CHESSMEN, KEYS.WALRUS, KEYS.TIER5}, -- Future Release?
     room_choices = {
         ["ChessArea"] = 1,
         ["WalrusHut_Desert"] = 2,
@@ -132,7 +182,7 @@ AddTask("Quarrelious Desert",  {
 
 AddTask("Desert Start",  {
     locks = { LOCKS.NONE },
-    keys_given={ KEYS.TEIR2, KEYS.GOLD, KEYS.PICKAXE, KEYS.AXE },
+    keys_given={ KEYS.TIER2, KEYS.GOLD, KEYS.PICKAXE, KEYS.AXE },
     room_choices = {
         ["Rocky"] = 1,
         ["BGBadlands"] = 1,
@@ -144,7 +194,7 @@ AddTask("Desert Start",  {
 
 AddTask("Desert King", {
     locks = {LOCKS.TIER3, LOCKS.SPIDERS_DEFEATED, LOCKS.PIGGIFTS}, -- set it to none because of crashing ):
-    keys_given = {KEYS.TEIR4}, -- set it to none because of crashing ):
+    keys_given = {KEYS.TIER4, KEYS.PIGS}, -- set it to none because of crashing ):
     entrance_room=blockersets.pigs_hard,
     entrance_room_chance=0.75,
     room_choices = {
@@ -155,8 +205,46 @@ AddTask("Desert King", {
     background_room="BGBadlands",
 		colour={r=0,g=1,b=0.3,a=1}
 })
+AddTask("Desert Graveyard", {
+    locks={LOCKS.INNERTIER},
+    keys_given={KEYS.GOLD},
+    room_choices= {
+        ["MandrakeGraveyard"] = 1,
+        ["BGBadlands"] = 2,
+    },
+    room_bg=GROUND.DIRT,
+    background_room="BGBadlands",
+    colour={r=0,g=1,b=0.3,a=1}
+})
 -- rooms
-
+AddRoom("MandrakeGraveyard", {
+  colour={r=.010,g=.010,b=.10,a=.50},
+  value = GROUND.FOREST,
+  tags = {"Town", "Mist"},
+  contents =  {
+    countstaticlayouts = {
+      ["InsanePighouse"]= function() if math.random(100) > 85 then
+          return 1
+        else
+          return 0
+        end
+      end,
+      ["Desert-Config-Graveyard"]= function() if math.random(100) > 85 then
+          return 1
+        else
+          return 0
+        end
+      end,
+    },
+    countprefabs= {
+      evergreen = 5,
+      goldnugget = function() return math.random(5) end,
+      gravestone = function () return 5 + math.random(4) end,
+      mound = function () return 5 + math.random(4) end,
+      mandrake_planted = 3,
+    }
+  }
+})
 
 AddRoom("SpiderVillageDesert", {
     colour={r=.30,g=.20,b=.50,a=.50},
@@ -203,7 +291,34 @@ AddRoom("WalrusHut_Desert", {
         }
     }
 })
+AddRoom("Bee Oasis", {
+  colour ={r=0,g=.9,b=0,a=.50},
+  value = GROUND.DECIDUOUS,
+  contents = {
+      countprefabs={
+        beequeenhive=1,
+        beehive = 3,
+        wasphive = 5,
+      },
+      distributepercent = 0.7,
+      distributeprefabs = {
+        grass = 0.3,
+        sapling=0.1,
+        twiggytree=0.4,
+        berrybush=0.3,
+        berrybush_juicy = 0.05,
+        red_mushroom = 0.07,
+        blue_mushroom = 0.07,
+        green_mushroom = 0.07,
 
+        fireflies = 0.3,
+        flower=5,
+        beehive = 0.7,
+        wasphive = 0.7,
+        molehill = 0.25,
+    },
+  }
+})
 AddRoom("Moon Magic", {
     colour ={r=0,g=.9,b=0,a=.50},
     value = GROUND.DECIDUOUS,
@@ -211,6 +326,9 @@ AddRoom("Moon Magic", {
         countstaticlayouts={
           ["MoonbaseOne"]=1,
           ["DeciduousPond"] = 1,
+        },
+        countprefabs = {
+          critterlab = 1,
         },
         distributepercent = 0.2,
         distributeprefabs = {

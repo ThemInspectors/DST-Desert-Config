@@ -111,7 +111,7 @@ AddTaskSet("desertonly", {
 set_pieces = { --set pieces
     ["ResurrectionStone"] = { count = 2, tasks={ "Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert" } },
     ["WormholeGrass"] = { count = 8, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert"} },
-    ["MooseNest"] = { count = 3, tasks={"Moon Oasis", "Desert King", "Bee Bungaloo", "Desert Graveyard", "The Drylands", "The Runoff"} },
+    ["MooseNest"] = { count = 3, tasks={"Moon Oasis", "Desert King", "Bee Bungaloo", "Desert Graveyard", "The Drylands", "The Runoff", "Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert"} },
     ["CaveEntrance"] = { count = 10, tasks={"Badlands", "Oasis", "Desert Start", "Lightning Bluff", "Quarrelious Desert", "Desert King", "Moon Oasis", "Bee Bungaloo"} },
     },
 })

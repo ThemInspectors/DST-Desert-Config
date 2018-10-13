@@ -1,5 +1,5 @@
 name = "Desert Enhancement"
-description = "Enhance your deserts, Config coming later."
+description = "Enhance your deserts, Config is here!"
 
 author = "ThemInspectors"
 version = "2.0"

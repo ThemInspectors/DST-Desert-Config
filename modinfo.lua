@@ -2,7 +2,7 @@ name = "Desert Enhancement"
 description = "Enhance your deserts, Config is here!"
 
 author = "ThemInspectors"
-version = "2.0"
+version = "2.1"
 forumthread = ""
 api_version = 10
 

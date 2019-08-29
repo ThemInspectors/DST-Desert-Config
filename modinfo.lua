@@ -2,8 +2,12 @@ name = "Desert Enhancement"
 
 
 author = "ThemInspectors"
+<<<<<<< HEAD
 version = "2.2"
 description = "Enhance your deserts, Config is here!\nV-"..version
+=======
+version = "2.1"
+>>>>>>> 25c1d3797a8607e0bd2d4ac3c7843f2b1d62b2e5
 forumthread = ""
 api_version = 10
 priority = 9017 -- Compatibility with adveture mode

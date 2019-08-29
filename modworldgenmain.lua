@@ -87,6 +87,50 @@ local function addDesertTasks(taskset)
   end
   --]=]
 end
+-- Adventure Mode Hook
+
+if not GLOBAL.TUNING.TELEPORTATOMOD then
+    GLOBAL.TUNING.TELEPORTATOMOD = {}
+end
+if not GLOBAL.TUNING.TELEPORTATOMOD.WORLDS then
+    GLOBAL.TUNING.TELEPORTATOMOD.WORLDS = {}
+end
+--local WORLDS = GLOBAL.TUNING.TELEPORTATOMOD.WORLDS
+
+--GLOBAL.TUNING.TELEPORTATOMOD.teleportato_layouts["forest"]=nil,
+
+local function DesertOnly(tasksetdata) -- DesertOnly
+    tasksetdata.numoptionaltasks = 0
+    tasksetdata.tasks = {"Desert Start","Desert King","Badlands","Lightning Bluff", "Oasis", "Quarrelious Desert"}
+    tasksetdata.optionaltasks = {}
+    tasksetdata.set_pieces = {
+            ["ResurrectionStoneWinter"] = { count=1, tasks={"Desert Start","Desert King","Badlands","Lightning Bluff", "Oasis", "Quarrelious Desert"}},
+    }
+    tasksetdata.required_setpieces = {}
+    tasksetdata.numrandom_set_pieces = 0
+    if not tasksetdata.required_setpieces then
+        tasksetdata.required_setpieces = {}
+    end
+    --[==[
+    for _,set in pairs(GLOBAL.TUNING.TELEPORTATOMOD.teleportato_layouts["forest"]) do
+        table.insert(tasksetdata.required_setpieces,set)
+    end
+    --]==]
+    tasksetdata.random_set_pieces = {}
+    tasksetdata.add_teleportato = true -- add teleportato within teleportato mod. ypu can set up _G.TUNING.TELEPORTATOMOD.teleportato_layouts to change the setpieces of them
+    tasksetdata.required_prefabs = GLOBAL.ArrayUnion(required_prefabs,{"teleportato_base","teleportato_box","teleportato_crank","teleportato_ring","teleportato_potato"}) -- if ordered_story_setpieces is nil/empty, required_prefabs is set up in teleoprtato mod depending in settings there
+    tasksetdata.overrides={
+        wormhole_prefab = "wormhole",
+        layout_mode = "LinkNodesByKeys",
+        start_location = "desertstart",
+        roads = "never"
+    }
+    return tasksetdata
+end
+table.insert(GLOBAL.TUNING.TELEPORTATOMOD.WORLDS, {name="The Badlands", taskdatafunctions={forest=DesertOnly, cave=AlwaysTinyCave}, defaultpositions={2,4,5},positions="2,4,5"})
+
+
+
 
 AddTaskSetPreInitAny(addDesertTasks)
 -- Custom Tasks, Rooms, Tasksets, starting areas and alot of things.
@@ -207,7 +251,7 @@ AddTask("Desert King", {
 })
 AddTask("Desert Graveyard", {
     locks={LOCKS.INNERTIER},
-    keys_given={KEYS.GOLD},
+    keysGLOBALiven={KEYS.GOLD},
     room_choices= {
         ["MandrakeGraveyard"] = 1,
         ["BGBadlands"] = 2,

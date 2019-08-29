@@ -1,11 +1,12 @@
 name = "Desert Enhancement"
-description = "Enhance your deserts, Config is here!"
+
 
 author = "ThemInspectors"
-version = "2.1"
+version = "2.2"
+description = "Enhance your deserts, Config is here!\nV-"..version
 forumthread = ""
 api_version = 10
-
+priority = 9017 -- Compatibility with adveture mode
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
 all_clients_require_mod = false

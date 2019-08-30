@@ -89,12 +89,8 @@ local function addDesertTasks(taskset)
 end
 -- Adventure Mode Hook
 
-if not GLOBAL.TUNING.TELEPORTATOMOD then
-    GLOBAL.TUNING.TELEPORTATOMOD = {}
-end
-if not GLOBAL.TUNING.TELEPORTATOMOD.WORLDS then
-    GLOBAL.TUNING.TELEPORTATOMOD.WORLDS = {}
-end
+
+
 --local WORLDS = GLOBAL.TUNING.TELEPORTATOMOD.WORLDS
 
 --GLOBAL.TUNING.TELEPORTATOMOD.teleportato_layouts["forest"]=nil,
@@ -127,8 +123,16 @@ local function DesertOnly(tasksetdata) -- DesertOnly
     }
     return tasksetdata
 end
-table.insert(GLOBAL.TUNING.TELEPORTATOMOD.WORLDS, {name="The Badlands", taskdatafunctions={forest=DesertOnly, cave=AlwaysTinyCave}, defaultpositions={2,4,5},positions="2,4,5"})
 
+if GLOBAL.TUNING.TELEPORTATOMOD then
+    if not GLOBAL.TUNING.TELEPORTATOMOD.WORLDS then
+        GLOBAL.TUNING.TELEPORTATOMOD.WORLDS = {}
+    end
+    table.insert(GLOBAL.TUNING.TELEPORTATOMOD.WORLDS, {name="The Badlands", taskdatafunctions={forest=DesertOnly, cave=AlwaysTinyCave}, defaultpositions={2,3,4,5},positions="2,3,4,5"})
+    print("Desert Config is hooking into adveture mode")
+else
+    print("Desert Config is not hooking into adveture mode")
+end
 
 
 

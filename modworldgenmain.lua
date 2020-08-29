@@ -1,6 +1,6 @@
 --[=====[
 
- Copyright (C) 2017 ThemInspectors
+ Copyright (C) 2020 ThemInspectors
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -104,6 +104,8 @@ local function DesertOnly(tasksetdata) -- DesertOnly
     }
     tasksetdata.required_setpieces = {}
     tasksetdata.numrandom_set_pieces = 0
+    tasksetdata.ocean_prefill_setpieces = {} -- delete any ocean stuff
+    tasksetdata.ocean_population = {} -- delete any ocean stuff
     if not tasksetdata.required_setpieces then
         tasksetdata.required_setpieces = {}
     end

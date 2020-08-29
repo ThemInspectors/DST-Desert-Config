@@ -2,7 +2,7 @@ name = "Desert Enhancement"
 
 
 author = "ThemInspectors"
-version = "2.2"
+version = "2.3"
 description = "Enhance your deserts \nNow compatible with the adventure mode mod!\nV-"..version
 forumthread = ""
 api_version = 10
